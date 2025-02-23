@@ -24,8 +24,8 @@ jobs:
 
       - name: Cek hasil download
         run: |
-          echo "Isi direktori saat ini:"
-          ls -R
+          echo "Cek isi folder hasil download:"
+          ls -R 2025-02-23 || echo "Folder kosong atau tidak ada"
 
       - name: Commit & Push hasil ke repository
         env:
