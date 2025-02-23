@@ -2,15 +2,22 @@ name: Run WRF Downloader
 
 on:
   schedule:
-    - cron: "0 10 * * *"  # Menjalankan setiap hari pada pukul 00:00 UTC
+    - cron: "0 10 * * *"  # Menjalankan setiap hari pada pukul 10:00 UTC
   workflow_dispatch:  # Memungkinkan menjalankan secara manual
+
+permissions:
+  contents: write  # Memberikan izin untuk push ke repository
 
 jobs:
   download_and_process:
     runs-on: ubuntu-latest
+
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
+        with:
+          persist-credentials: false  # Hindari konflik dengan GITHUB_TOKEN
+          fetch-depth: 0  # Pastikan semua history Git tersedia
 
       - name: Setup Python
         uses: actions/setup-python@v4
@@ -37,7 +44,7 @@ jobs:
 
       - name: Commit and Push Forecast Maps
         env:
-          GH_PAT: ${{ secrets.GH_PAT }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           git config --global user.email "github-actions@github.com"
           git config --global user.name "GitHub Actions"
@@ -45,4 +52,3 @@ jobs:
           git add wrf_wcpl/
           git commit -m "Update forecast maps for $(date -u '+%Y-%m-%d %H:%M:%S UTC')" || echo "No changes to commit"
           git push origin main
-
