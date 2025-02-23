@@ -12,7 +12,9 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
-
+        with:
+          token: ${{ secrets.GH_PAT }}
+          
       - name: Install Python dependencies
         run: pip install opencv-python-headless numpy requests  # Pastikan package yang dibutuhkan ada
 
