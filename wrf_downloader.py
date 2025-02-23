@@ -60,8 +60,11 @@ def download_wrf_images():
     save_dir = execution_date_folder
     os.makedirs(save_dir, exist_ok=True)
     
-    start_dt = datetime.utcnow()
-    end_dt = start_dt + timedelta(hours=24)
+    now = datetime.now()  # Menggunakan waktu lokal (WIB)
+    H = now - timedelta(days=1)  # H adalah hari sebelumnya
+    start_dt = H.replace(hour=7, minute=0) + timedelta(days=1)  # H+1 07:00 WIB
+    end_dt = start_dt + timedelta(hours=24)  # H+2 07:00 WIB
+
     
     current_dt = start_dt
     while current_dt <= end_dt:
