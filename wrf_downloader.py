@@ -56,21 +56,22 @@ def download_wrf_images():
     base_url = "http://nimbus.meteo.itb.ac.id/weather/model/wrf_new/cy00/d02/rainuv10/"
     filename_template = "wrf-00-rainuv10-{datetime}.png"
     
-    execution_date_folder = (datetime.utcnow() + timedelta(hours=7)).strftime("%Y-%m-%d")
+    # Hitung tanggal eksekusi (UTC) dan konversi ke WIB (UTC+7)
+    today_utc = datetime.utcnow()  # Hari H dalam UTC
+    target_date = today_utc + timedelta(days=1)  # H+1 dalam UTC
+    
+    execution_date_folder = target_date.strftime("%Y-%m-%d")
     save_dir = f"wrf_wcpl/{execution_date_folder}"
     
     os.makedirs(save_dir, exist_ok=True)
 
-    
-    now = datetime.now()  # Menggunakan waktu lokal (WIB)
-    H = now - timedelta(days=1)  # H adalah hari sebelumnya
-    start_dt = H.replace(hour=7, minute=0) + timedelta(days=1)  # H+1 07:00 WIB
-    end_dt = start_dt + timedelta(hours=24)  # H+2 07:00 WIB
-
+    # H+1 07:00 WIB dikonversi ke UTC
+    start_dt = datetime(target_date.year, target_date.month, target_date.day, 0, 0) + timedelta(hours=7)
+    end_dt = start_dt + timedelta(hours=24)  # Sampai H+2 07:00 WIB
     
     current_dt = start_dt
     while current_dt <= end_dt:
-        if current_dt.hour % 3 == 1 or current_dt.hour % 3 == 4 or current_dt.hour % 3 == 7:
+        if current_dt.hour in [7, 10, 13, 16, 19, 22, 1, 4]:  # Hanya jam tertentu
             datetime_str = current_dt.strftime("%Y%m%d_%H")
             filename = filename_template.format(datetime=datetime_str)
             file_url = base_url + filename
@@ -87,8 +88,11 @@ def download_wrf_images():
                 save_path = os.path.join(save_dir, new_filename)
                 draw_rectangle(file_full_path, top_left, bottom_right, save_path)                
                 print(f"Gambar disimpan sebagai {save_path}")
-        
+
         current_dt += timedelta(hours=3)
+
+
+
 
 def main():
     download_wrf_images()
