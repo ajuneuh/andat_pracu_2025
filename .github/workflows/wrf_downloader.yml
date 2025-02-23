@@ -26,11 +26,11 @@ jobs:
         run: python wrf_downloader.py
 
       - name: Upload Forecast Maps
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: forecast-maps
           path: wrf_wcpl/**/*.png
-
+          compression-level: 0
             
       - name: Debug files
         run: ls -R wrf_wcpl/
