@@ -56,9 +56,11 @@ def download_wrf_images():
     base_url = "http://nimbus.meteo.itb.ac.id/weather/model/wrf_new/cy00/d02/rainuv10/"
     filename_template = "wrf-00-rainuv10-{datetime}.png"
     
-    execution_date_folder = datetime.now().strftime("%Y-%m-%d")
-    save_dir = execution_date_folder
+    execution_date_folder = (datetime.utcnow() + timedelta(hours=7)).strftime("%Y-%m-%d")
+    save_dir = f"wrf_wcpl/{execution_date_folder}"
+    
     os.makedirs(save_dir, exist_ok=True)
+
     
     now = datetime.now()  # Menggunakan waktu lokal (WIB)
     H = now - timedelta(days=1)  # H adalah hari sebelumnya
