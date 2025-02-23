@@ -7,20 +7,21 @@ from datetime import datetime, timedelta, timezone
 
 def download_image(url, save_path):
     try:
+        print(f"Mulai mengunduh: {url}")  # Debug tambahan
         for attempt in range(3):  # Coba maksimal 3 kali
             response = requests.get(url, stream=True, timeout=10)
+            print(f"Percobaan {attempt+1}: Status kode {response.status_code}")  # Debug tambahan
             if response.status_code == 200:
                 with open(save_path, "wb") as file:
                     for chunk in response.iter_content(1024):
                         file.write(chunk)
                 print(f"Berhasil mengunduh: {save_path}")
                 return True
-            print(f"Percobaan {attempt+1}: Gagal mengunduh {url}, status {response.status_code}")
+        print(f"Gagal mengunduh {url} setelah 3 percobaan")
         return False
     except requests.RequestException as e:
         print(f"Error saat mengunduh {save_path}: {e}")
         return False
-
 
 def analyze_rainfall(image_path, pixel_coord):
     image = cv2.imread(image_path, cv2.IMREAD_UNCHANGED)
