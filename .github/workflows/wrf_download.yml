@@ -20,8 +20,12 @@ jobs:
 
       - name: Jalankan script WRF download
         run: |
-          # mkdir -p $(date +'%Y-%m-%d')  # Buat folder YYYY-MM-DD
           python wrf_auto_download.py $(date +'%Y-%m-%d')  # Menjalankan script
+
+      - name: Cek hasil download
+        run: |
+          echo "Isi direktori saat ini:"
+          ls -R
 
       - name: Commit & Push hasil ke repository
         env:
@@ -30,7 +34,10 @@ jobs:
           git config --global user.name "GitHub Actions"
           git config --global user.email "actions@github.com"
           git remote set-url origin https://${GH_PAT}@github.com/ajuneuh/andat_pracu_2025.git
-          git add $(date +'%Y-%m-%d')  # Tambahkan folder hasil download
+          
+          echo "Cek file yang akan di-add:"
+          git status
+          
+          git add .
           git commit -m "Menambahkan data WRF pada $(date +'%Y-%m-%d')" || echo "Tidak ada perubahan"
           git push origin main
-
