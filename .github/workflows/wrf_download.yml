@@ -27,7 +27,7 @@ jobs:
         run: |
           git config --global user.name "GitHub Actions"
           git config --global user.email "actions@github.com"
-          git remote set-url origin https://x-access-token:${GH_PAT}@github.com/ajuneuh/andat_pracu_2025.git
+          git remote set-url origin https://${GH_PAT}@github.com/ajuneuh/andat_pracu_2025.git
           git add $(date +'%Y-%m-%d')  # Tambahkan folder hasil download
           git commit -m "Menambahkan data WRF pada $(date +'%Y-%m-%d')" || echo "Tidak ada perubahan"
           git push origin main
