@@ -1,4 +1,5 @@
 import os
+import sys
 import cv2
 import numpy as np
 import requests
@@ -52,7 +53,7 @@ def draw_rectangle(image_path, top_left, bottom_right, save_path):
     cv2.rectangle(image, top_left, bottom_right, (0, 0, 255, 255), 2)
     cv2.imwrite(save_path, image)
 
-def download_wrf_images():
+def download_wrf_images(output_folder):
     base_url = "http://nimbus.meteo.itb.ac.id/weather/model/wrf_new/cy00/d02/rainuv10/"
     filename_template = "wrf-00-rainuv10-{datetime}.png"
     
@@ -60,7 +61,7 @@ def download_wrf_images():
     start_dt = execution_date + timedelta(days=1, hours=7)  # D+1 07:00 UTC
     end_dt = execution_date + timedelta(days=2, hours=7)    # D+2 07:00 UTC
     
-    save_dir = os.path.join("wrf_wcpl", execution_date.strftime("%Y-%m-%d"))
+    save_dir = os.path.join(output_folder, execution_date.strftime("%Y-%m-%d"))
     os.makedirs(save_dir, exist_ok=True)
     
     current_dt = start_dt
@@ -86,4 +87,10 @@ def download_wrf_images():
         current_dt += timedelta(hours=3)
 
 if __name__ == "__main__":
-    download_wrf_images()
+    # Ambil argumen folder dari GitHub Actions, atau default ke YYYY-MM-DD hari ini
+    if len(sys.argv) > 1:
+        folder_name = sys.argv[1]
+    else:
+        folder_name = datetime.utcnow().strftime("%Y-%m-%d")
+
+    download_wrf_images(folder_name)
