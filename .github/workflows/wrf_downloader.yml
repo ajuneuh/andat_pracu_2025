@@ -28,5 +28,10 @@ jobs:
       - name: Upload generated images
         uses: actions/upload-artifact@v4
         with:
-          name: wrf_images
-          path: "*/wrf-00-rainuv10-*.png"
+          name: wrf-images
+          path: |
+            wrf_wcpl/${{ steps.date.outputs.date }}/*.png
+            
+      - name: Debug files
+        run: ls -R wrf_wcpl/
+
