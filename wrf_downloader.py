@@ -60,7 +60,7 @@ def download_wrf_images():
     today_utc = datetime.utcnow()  # Hari H dalam UTC
     target_date = today_utc + timedelta(days=1) + timedelta(hours=7) # H+1 dalam UTC
     
-    execution_date_folder = target_date.strftime("%Y-%m-%d")
+    execution_date_folder = (today_utc+timedelta(hours=7)).strftime("%Y-%m-%d")
     save_dir = f"wrf_wcpl/{execution_date_folder}"
     
     os.makedirs(save_dir, exist_ok=True)
