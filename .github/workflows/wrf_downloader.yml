@@ -41,7 +41,8 @@ jobs:
         run: |
           git config --global user.email "github-actions@github.com"
           git config --global user.name "GitHub Actions"
-          git remote set-url origin https://x-access-token:${GH_PAT}@github.com/ajuneuh/andat_pracu_2025.git
+          git remote set-url origin https://${GH_PAT}@github.com/ajuneuh/andat_pracu_2025.git
           git add wrf_wcpl/
           git commit -m "Update forecast maps for $(date -u '+%Y-%m-%d %H:%M:%S UTC')" || echo "No changes to commit"
           git push origin main
+
