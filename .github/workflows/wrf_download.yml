@@ -2,33 +2,29 @@ name: WRF Auto Download
 
 on:
   schedule:
-    - cron: "0 10 * * *"  # Setiap hari pukul 10:00 UTC
-  workflow_dispatch:  # Bisa dijalankan manual
+    - cron: "0 10 * * *"  # Jalan otomatis setiap hari pukul 10 UTC
+  workflow_dispatch:  # Memungkinkan menjalankan manual
 
 jobs:
-  download_wrf:
+  download:
     runs-on: ubuntu-latest
+
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Setup Python
-        uses: actions/setup-python@v5
-        with:
-          python-version: "3.x"
+      - name: Install Python dependencies
+        run: pip install requests  # Pastikan package yang dibutuhkan ada
 
-      - name: Install dependencies
-        run: pip install opencv-python numpy requests
+      - name: Jalankan script WRF download
+        run: |
+          mkdir -p $(date +'%Y-%m-%d')  # Buat folder YYYY-MM-DD
+          python wrf_auto_download.py $(date +'%Y-%m-%d')  # Menjalankan script
 
-      - name: Run WRF Downloader
-        run: python wrf_auto_download.py
-
-      - name: Commit and Push Results
+      - name: Commit & Push hasil ke repository
         run: |
           git config --global user.name "GitHub Actions"
           git config --global user.email "actions@github.com"
-          git add wrf_wcpl/
-          git commit -m "Auto-update WRF images $(date)"
+          git add $(date +'%Y-%m-%d')  # Tambahkan folder hasil download
+          git commit -m "Menambahkan data WRF pada $(date +'%Y-%m-%d')"
           git push
-        continue-on-error: true
-
