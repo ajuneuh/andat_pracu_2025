@@ -35,3 +35,10 @@ jobs:
       - name: Debug files
         run: ls -R wrf_wcpl/
 
+      - name: Commit and Push Forecast Maps
+        run: |
+          git config --global user.email "github-actions@github.com"
+          git config --global user.name "GitHub Actions"
+          git add wrf_wcpl/
+          git commit -m "Update forecast maps for $(date -u '+%Y-%m-%d %H:%M:%S UTC')" || echo "No changes to commit"
+          git push
