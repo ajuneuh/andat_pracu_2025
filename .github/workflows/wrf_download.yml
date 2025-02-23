@@ -14,7 +14,7 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Install Python dependencies
-        run: pip install requests  # Pastikan package yang dibutuhkan ada
+        run: pip install opencv-python numpy requests  # Pastikan package yang dibutuhkan ada
 
       - name: Jalankan script WRF download
         run: |
