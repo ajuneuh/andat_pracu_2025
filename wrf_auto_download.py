@@ -3,7 +3,7 @@ import sys
 import cv2
 import numpy as np
 import requests
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 
 def download_image(url, save_path):
     try:
@@ -57,7 +57,7 @@ def download_wrf_images(output_folder):
     base_url = "http://nimbus.meteo.itb.ac.id/weather/model/wrf_new/cy00/d02/rainuv10/"
     filename_template = "wrf-00-rainuv10-{datetime}.png"
     
-    execution_date = datetime.utcnow()
+    execution_date = datetime.now(timezone.utc)
     start_dt = execution_date + timedelta(days=1, hours=7)  # D+1 07:00 UTC
     end_dt = execution_date + timedelta(days=2, hours=7)    # D+2 07:00 UTC
     
