@@ -58,7 +58,7 @@ def download_wrf_images():
     
     # Hitung tanggal eksekusi (UTC) dan konversi ke WIB (UTC+7)
     today_utc = datetime.utcnow()  # Hari H dalam UTC
-    target_date = today_utc + timedelta(days=1)  # H+1 dalam UTC
+    target_date = today_utc + timedelta(days=1) + timedelta(hours=7) # H+1 dalam UTC
     
     execution_date_folder = target_date.strftime("%Y-%m-%d")
     save_dir = f"wrf_wcpl/{execution_date_folder}"
