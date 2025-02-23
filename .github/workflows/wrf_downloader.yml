@@ -25,12 +25,12 @@ jobs:
       - name: Run WRF downloader script
         run: python wrf_downloader.py
 
-      - name: Upload generated images
-        uses: actions/upload-artifact@v4
+      - name: Upload Forecast Maps
+        uses: actions/upload-artifact@v3
         with:
-          name: wrf-images
-          path: |
-            wrf_wcpl/${{ steps.date.outputs.date }}/*.png
+          name: forecast-maps
+          path: wrf_wcpl/**/*.png
+
             
       - name: Debug files
         run: ls -R wrf_wcpl/
