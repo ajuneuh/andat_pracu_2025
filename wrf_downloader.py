@@ -67,7 +67,7 @@ def download_wrf_images():
 
     # H+1 07:00 WIB dikonversi ke UTC
     start_dt = datetime(target_date.year, target_date.month, target_date.day, 0, 0) + timedelta(hours=7)
-    end_dt = start_dt + timedelta(hours=24)  # Sampai H+2 07:00 WIB
+    end_dt = start_dt + timedelta(hours=72)  # Sampai H+2 07:00 WIB
     
     current_dt = start_dt
     while current_dt <= end_dt:
